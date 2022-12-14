@@ -1,6 +1,6 @@
 import express from 'express';
 import database from './config/database.js';
-import routes from './routes/index.js';
+import routes from './routes/routes.js';
 
 database.on('error', console.log.bind(console, 'Erro de conexão'));
 database.once('open', () => console.log('The database connection is successfully!'));

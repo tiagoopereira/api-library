@@ -2,27 +2,31 @@ import books from "../models/Book.js";
 
 export default class booksController {
     static index = (req, res) => {
-        books.find((err, books) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-    
-            return res.status(200).json(books);
-        });
+        books.find()
+            .populate('author')
+            .exec((err, books) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+        
+                return res.status(200).json(books);
+            });
     }
 
     static find = (req, res) => {
         const id = req.params.id;
 
-        books.findById(id, (err, books) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({ message: 'An internal error occurred during processing.' });
-            }
-    
-            return res.status(200).json(books);
-        });
+        books.findById(id)
+            .populate('author')
+            .exec((err, books) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ message: 'An internal error occurred during processing.' });
+                }
+        
+                return res.status(200).json(books);
+            });
     }
 
     static store = (req, res) => {
